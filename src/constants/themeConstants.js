@@ -1,0 +1,62 @@
+export const THEMES = {
+  morning: {
+    background: "bg-gradient-to-br from-sky-400 via-sky-300 to-orange-200",
+    glass: "bg-white/20 backdrop-blur-lg border border-white/30",
+    cardGlass: "bg-white/15 backdrop-blur-md border border-white/20",
+    button: "bg-gradient-to-r from-sky-500 to-orange-400 hover:from-sky-600 hover:to-orange-500",
+    recordButton: "bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600",
+    recordButtonActive: "bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600",
+    text: "text-slate-800",
+    placeholder: "placeholder:text-slate-600",
+    accent: "text-sky-600",
+    moodBadge: "bg-gradient-to-r from-sky-500 to-orange-400",
+    icon: "☀️",
+    greeting: "Good Morning",
+    trackBg: "bg-white/10"
+  },
+  midday: {
+    background: "bg-gradient-to-br from-orange-400 via-yellow-300 to-amber-200",
+    glass: "bg-white/25 backdrop-blur-lg border border-white/40",
+    cardGlass: "bg-white/20 backdrop-blur-md border border-white/25",
+    button: "bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600",
+    recordButton: "bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-600 hover:to-green-600",
+    recordButtonActive: "bg-gradient-to-r from-red-500 to-rose-500 hover:from-red-600 hover:to-rose-600",
+    text: "text-slate-800",
+    placeholder: "placeholder:text-slate-700",
+    accent: "text-orange-600",
+    moodBadge: "bg-gradient-to-r from-orange-500 to-amber-500",
+    icon: "🌞",
+    greeting: "Good Afternoon",
+    trackBg: "bg-white/15"
+  },
+  sunset: {
+    background: "bg-gradient-to-br from-purple-400 via-pink-400 to-orange-300",
+    glass: "bg-white/20 backdrop-blur-lg border border-white/30",
+    cardGlass: "bg-white/15 backdrop-blur-md border border-white/20",
+    button: "bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600",
+    recordButton: "bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600",
+    recordButtonActive: "bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600",
+    text: "text-slate-800",
+    placeholder: "placeholder:text-slate-700",
+    accent: "text-purple-600",
+    moodBadge: "bg-gradient-to-r from-purple-500 to-pink-500",
+    icon: "🌅",
+    greeting: "Good Evening",
+    trackBg: "bg-white/10"
+  },
+  night: {
+    background: "bg-gradient-to-br from-slate-900 via-purple-900 to-slate-800",
+    glass: "bg-white/10 backdrop-blur-lg border border-white/20",
+    cardGlass: "bg-white/5 backdrop-blur-md border border-white/10",
+    button: "bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700",
+    recordButton: "bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700",
+    recordButtonActive: "bg-gradient-to-r from-red-600 to-pink-600 hover:from-red-700 hover:to-pink-700",
+    text: "text-white",
+    placeholder: "placeholder:text-slate-300",
+    accent: "text-blue-400",
+    moodBadge: "bg-gradient-to-r from-purple-600 to-blue-600",
+    icon: "🌙",
+    greeting: "Good Evening",
+    trackBg: "bg-white/5"
+  }
+};
