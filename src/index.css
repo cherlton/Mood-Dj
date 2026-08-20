@@ -1,3 +1,74 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  body {
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: #0b0c10;
+    color: #e5e7eb;
+    overflow-x: hidden;
+  }
+}
+
+/* Sleek custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0f1117;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #242836;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #383e52;
+}
+
+/* Subtle glassmorphic card effects */
+.panel-dark {
+  background: #14151c;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.panel-card {
+  background: #191b24;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.panel-card:hover {
+  background: #20232f;
+  border-color: rgba(255, 93, 43, 0.25);
+}
+
+/* Waveform pulse animation */
+@keyframes wave-pulse {
+  0%, 100% {
+    height: 4px;
+  }
+  50% {
+    height: 20px;
+  }
+}
+
+.wave-bar {
+  animation: wave-pulse 1.2s ease-in-out infinite;
+}
+
+@keyframes float-subtle {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+.animate-float {
+  animation: float-subtle 4s ease-in-out infinite;
+}
