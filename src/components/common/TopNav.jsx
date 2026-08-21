@@ -1,8 +1,8 @@
-import React from "react";
-import { ArrowLeft, Search, Shuffle, Bell, User, Radio, Sparkles } from "lucide-react";
+import React, { useState } from "react";
+import { ArrowLeft, Search, Sparkles, Check } from "lucide-react";
 
 export default function TopNav({
-  activeTab = "Curated",
+  activeTab = "curated",
   setActiveTab,
   onBack,
   currentTime,
@@ -13,19 +13,22 @@ export default function TopNav({
   onSearchSubmit,
   showBackButton = false
 }) {
+  const [hoveredDisabledTab, setHoveredDisabledTab] = useState(null);
+
   const tabs = [
-    { id: "curated", label: "Curated Hits" },
-    { id: "new", label: "New Releases" },
-    { id: "news", label: "AI Vibe Feed" },
-    { id: "shuffle", label: "Shuffle Play" },
+    { id: "curated", label: "Curated Hits", available: true },
+    { id: "accurate", label: "Accurate Hits", available: true },
+    { id: "new", label: "New Releases", available: false },
+    { id: "news", label: "AI Vibe Feed", available: false }
   ];
 
   return (
-    <header className="h-14 px-4 sm:px-6 bg-[#0d0e12]/80 backdrop-blur-md border-b border-[#1e2029] sticky top-0 z-20 flex items-center justify-between gap-3">
+    <header className="h-14 px-4 sm:px-6 bg-[#0d0e12]/80 backdrop-blur-md border-b border-[#1e2029] sticky top-0 z-20 flex items-center justify-between gap-3 select-none">
       {/* Left: Navigation & Breadcrumbs */}
       <div className="flex items-center gap-3 min-w-0">
         {showBackButton && (
           <button
+            type="button"
             onClick={onBack}
             className="w-8 h-8 rounded-full bg-[#181a24] hover:bg-[#222533] border border-[#2c3040] text-gray-300 hover:text-white flex items-center justify-center transition-all duration-150"
             title="Go Back"
@@ -44,16 +47,42 @@ export default function TopNav({
         </div>
       </div>
 
-      {/* Center: Tabs */}
+      {/* Center: Tabs with Disabled & Coming Soon Tooltips */}
       <div className="hidden lg:flex items-center gap-1 bg-[#13141c] p-1 rounded-lg border border-[#1e202a]">
         {tabs.map((tab) => {
-          const isActive = activeTab === tab.id || (activeTab === "Curated" && tab.id === "curated");
+          const isActive = (activeTab === tab.id) || (activeTab === "Curated" && tab.id === "curated");
+          
+          if (!tab.available) {
+            return (
+              <div 
+                key={tab.id} 
+                className="relative"
+                onMouseEnter={() => setHoveredDisabledTab(tab.id)}
+                onMouseLeave={() => setHoveredDisabledTab(null)}
+              >
+                <button
+                  type="button"
+                  disabled
+                  className="px-3 py-1 rounded-md text-xs font-medium text-gray-600 cursor-not-allowed transition-all opacity-60 flex items-center gap-1"
+                >
+                  {tab.label}
+                </button>
+                {hoveredDisabledTab === tab.id && (
+                  <div className="absolute top-full mt-1.5 left-1/2 -translate-x-1/2 bg-[#1b1e2a] border border-[#2d3142] text-white text-[10px] font-semibold px-2.5 py-1 rounded-md shadow-2xl z-30 whitespace-nowrap animate-in fade-in zoom-in-95 pointer-events-none">
+                    <span className="text-[#ff7a45] mr-1">✦</span> Coming Soon
+                  </div>
+                )}
+              </div>
+            );
+          }
+
           return (
             <button
               key={tab.id}
+              type="button"
               onClick={() => {
-                if (tab.id === "shuffle" && onQuickShuffle) {
-                  onQuickShuffle();
+                if (tab.id === "accurate" && onSearchSubmit) {
+                  onSearchSubmit();
                 } else if (setActiveTab) {
                   setActiveTab(tab.id);
                 }
@@ -70,7 +99,7 @@ export default function TopNav({
         })}
       </div>
 
-      {/* Right: Quick Search + User Status Pill */}
+      {/* Right: Quick Search + DJ Session Badge */}
       <div className="flex items-center gap-3 flex-shrink-0">
         {/* Quick Search */}
         <form 

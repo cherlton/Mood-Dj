@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import MoodForm from "../components/mood/MoodForm";
 import PlaylistResult from "../components/playlist/PlaylistResult";
 import useTheme from "../hooks/useTheme";
@@ -6,8 +6,10 @@ import useTheme from "../hooks/useTheme";
 export default function HomePage({
   mood,
   setMood,
-  tracks,
+  tracks = [],
   setTracks,
+  trackDetails = [],
+  setTrackDetails,
   showResults,
   setShowResults,
   onNavigate,
@@ -16,24 +18,9 @@ export default function HomePage({
 }) {
   const { currentTheme, currentTime } = useTheme();
 
-  // Default curated tracks when app first loads to match screenshot immediately
-  const initialDefaultTracks = [
-    "spotify:track:4iV5W9uYEdYUVa79Axb7Rh", // Vocal Studies
-    "spotify:track:1Je1IMUlBXcx1Fz0WE7oPT", // Temples
-    "spotify:track:6f70bfcMKEyc4DsCI5e8SI", // Earth Tones
-    "spotify:track:0VjIjW4GlUZAMYd2vXMi3b", // Kollections 06
-    "spotify:track:3n3Ppam7vgaVa1iaRUc9Lp", // Mr. Brightside
-    "spotify:track:7qiZfU4dY1lWllzX7mPBI3", // Shape of You
-    "spotify:track:2Fxmhks0bxVhyJocqXuqQ2", // Bad Guy
-    "spotify:track:0V3wPSX9ygBnCm8psDIegu"  // Blinding Lights
-  ];
-
-  const activeTracks = tracks && tracks.length > 0 ? tracks : initialDefaultTracks;
-  const activeMood = mood || "R&B Hits";
-
   return (
     <div className="space-y-6 pb-20">
-      {/* AI Prompt Station & Voice Input (Compact & Pro Studio Design) */}
+      {/* AI Prompt Station & Voice Input */}
       <MoodForm 
         setMood={(m) => {
           setMood(m);
@@ -43,17 +30,22 @@ export default function HomePage({
           setTracks(t);
           setShowResults(true);
         }}
-        onGenerated={(m, t) => {
+        setTrackDetails={(d) => {
+          if (setTrackDetails) setTrackDetails(d);
+        }}
+        onGenerated={(m, t, d) => {
           setMood(m);
           setTracks(t);
+          if (setTrackDetails && d) setTrackDetails(d);
           setShowResults(true);
         }}
       />
 
-      {/* Playlist Hero Banner & Matched Grid */}
+      {/* Playlist Hero Banner & Matched 8-Track Grid */}
       <PlaylistResult 
-        mood={activeMood} 
-        tracks={activeTracks}
+        mood={mood} 
+        tracks={tracks}
+        trackDetails={trackDetails}
         onTrackChange={onTrackChange}
         onPlaybackStateChange={onPlaybackStateChange}
       />

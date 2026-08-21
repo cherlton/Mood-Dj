@@ -19,16 +19,16 @@ export default function App() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isShuffled, setIsShuffled] = useState(false);
   const [repeatMode, setRepeatMode] = useState("off");
-  const [activeTab, setActiveTab] = useState("Curated");
+  const [activeTab, setActiveTab] = useState("curated");
   const [searchQuery, setSearchQuery] = useState("");
 
   const { currentTheme, currentTime } = useTheme();
 
-  // Load default 8 random curated discovery tracks on initial mount
+  // Load initial real Spotify tracks on mount
   useEffect(() => {
-    const fetchDefaultPlaylist = async () => {
+    const fetchInitialPlaylist = async () => {
       try {
-        const data = await moodService.getPlaylist("");
+        const data = await moodService.getPlaylist("top hits");
         if (data && data.tracks && data.tracks.length > 0) {
           setTracks(data.tracks.slice(0, 8));
           if (data.track_details) {
@@ -39,11 +39,11 @@ export default function App() {
           }
         }
       } catch (err) {
-        console.log("Could not load initial Spotify playlist:", err);
+        console.error("Error fetching initial Spotify playlist:", err);
       }
     };
 
-    fetchDefaultPlaylist();
+    fetchInitialPlaylist();
   }, []);
 
   // Handle browser URL hash or path changes
@@ -70,13 +70,13 @@ export default function App() {
       const data = await moodService.getPlaylist(selectedMood);
       if (data && data.tracks && data.tracks.length > 0) {
         setTracks(data.tracks.slice(0, 8));
-        if (data.track_details) {
+        if (data.track_details && data.track_details.length > 0) {
           setTrackDetails(data.track_details.slice(0, 8));
         }
         setCurrentTrackIndex(0);
       }
     } catch (e) {
-      console.log("Could not load playlist for mood:", e);
+      console.error("Could not load Spotify playlist for mood:", e);
     }
   };
 
@@ -126,11 +126,7 @@ export default function App() {
     setRepeatMode(nextMode);
   };
 
-  const activeDetail = trackDetails[currentTrackIndex] || {
-    name: `Track #${currentTrackIndex + 1}`,
-    artist: "Spotify Audio Stream",
-    image: null
-  };
+  const activeDetail = (trackDetails && trackDetails[currentTrackIndex]) || null;
 
   // Find active route or fallback
   const activeRoute = ROUTES.find((r) => r.path === currentPath) || ROUTES.find((r) => r.isDefault);
@@ -139,7 +135,7 @@ export default function App() {
   return (
     <div className="min-h-screen bg-[#0b0c10] text-[#e1e4ea] flex flex-col font-sans">
       <div className="flex-1 flex overflow-hidden">
-        {/* Left Sidebar (Only matching backend endpoints) */}
+        {/* Left Sidebar */}
         <Sidebar
           currentPath={currentPath}
           onNavigate={navigate}
@@ -211,9 +207,10 @@ export default function App() {
         currentTrackIndex={currentTrackIndex}
         totalTracks={tracks.length}
         nowPlayingTrack={tracks[currentTrackIndex]}
-        activeTrackName={activeDetail.name}
-        activeArtistName={activeDetail.artist}
-        activeImage={activeDetail.image}
+        activeTrackName={activeDetail?.name}
+        activeArtistName={activeDetail?.artist}
+        activeImage={activeDetail?.image}
+        previewUrl={activeDetail?.preview_url}
         mood={mood}
       />
     </div>
